@@ -1,19 +1,19 @@
 /* phones */
 @media(max-width:415px){
     .title{
-        font-size: 60px;
+        font-size: 50px;
     }
 
-    .top-container{
+    #search-form{
         grid-template-columns: 1fr;
         margin: 3% auto 3% 3.5%;
     }
 
-    #Searchbar1, #Searchbar2{
+    #search, #location{
         width: 350px;
     }
 
-    .Search-button{
+    .search-button{
         border-radius: 10px;
         margin: auto;
     }
@@ -21,25 +21,30 @@
     .cards{
         grid-template-columns: 1fr;
         margin-top: 5%;
+        grid-gap: 1.5%;
+    }
+
+    footer{
+        display: none;
     }
 }
 
 /* ipads */
 @media(max-width:1024px) and (min-width:768px){
     .title{
-        font-size: 91px;
+        font-size: 60px;
     }
 
-    .top-container{
+    #search-form{
         grid-template-columns: repeat(2,1fr);
         margin: 3% auto 3% 1.8%;
     }
 
-    #Searchbar1, #Searchbar2{
+    #search, #location{
         width: 350px;
     }
 
-    .Search-button{
+    .search-button{
         border-radius: 10px;
         margin: 5% auto auto 75%;
     }
@@ -47,6 +52,10 @@
     .cards{
         grid-template-columns: repeat(2,1fr);
         margin-top: 5%;
+    }
+
+    footer{
+        display: none;
     }
 }
 
