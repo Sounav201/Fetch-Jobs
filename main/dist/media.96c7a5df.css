@@ -1,0 +1,53 @@
+/* phones */
+@media(max-width:415px){
+    .title{
+        font-size: 60px;
+    }
+
+    .top-container{
+        grid-template-columns: 1fr;
+        margin: 3% auto 3% 3.5%;
+    }
+
+    #Searchbar1, #Searchbar2{
+        width: 350px;
+    }
+
+    .Search-button{
+        border-radius: 10px;
+        margin: auto;
+    }
+
+    .cards{
+        grid-template-columns: 1fr;
+        margin-top: 5%;
+    }
+}
+
+/* ipads */
+@media(max-width:1024px) and (min-width:768px){
+    .title{
+        font-size: 91px;
+    }
+
+    .top-container{
+        grid-template-columns: repeat(2,1fr);
+        margin: 3% auto 3% 1.8%;
+    }
+
+    #Searchbar1, #Searchbar2{
+        width: 350px;
+    }
+
+    .Search-button{
+        border-radius: 10px;
+        margin: 5% auto auto 75%;
+    }
+
+    .cards{
+        grid-template-columns: repeat(2,1fr);
+        margin-top: 5%;
+    }
+}
+
+/*# sourceMappingURL=/media.96c7a5df.css.map */

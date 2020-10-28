@@ -35,7 +35,7 @@ const server= createServer((req,res) => {
     const decodedArgs=decodeArgs(new URLSearchParams(requestURL.search));
     const {search,location,country='in'} = decodedArgs;
 
-    const targetURL= `${config.Base_url}/${country.toLowerCase()}/${config.Base_args}&app_id=${config.Api_id}&app_key=${config.Api_key}&what=${search}&where=${location}`;
+    const targetURL= `${config.Base_url}/${country.toLowerCase()}/${config.Base_args}&${config.Base_keys}&what=${search}&where=${location}`;
 
     if(req.method ==='GET'){
         console.log(chalk.green(`Proxy GET request to : ${targetURL}`));
