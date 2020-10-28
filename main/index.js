@@ -1,5 +1,5 @@
-import {FetchJobs  } from "./Fetch_Job";
+import { FetchJobs } from "./Fetch_Job";
 
-const jobSearch = new FetchJobs('#search-form', '.results');
+const jobSearch = new FetchJobs('#search-form', '.cards');
 jobSearch.setCountryCode();
 jobSearch.GetForm();
