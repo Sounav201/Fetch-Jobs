@@ -119,6 +119,10 @@ a{
     padding-bottom: 4%;
 }
 
+.job-posting-time span{
+    font-weight: 650;
+}
+
 .card-data p{
     color: #202020;
     font-size: 16px;
