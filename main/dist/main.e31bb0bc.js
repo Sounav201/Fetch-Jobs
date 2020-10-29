@@ -265,7 +265,35 @@ var _Fetch_Job = require("./Fetch_Job");
 
 var jobSearch = new _Fetch_Job.FetchJobs('#search-form', '.cards');
 jobSearch.setCountryCode();
-jobSearch.GetForm();
+jobSearch.GetForm(); //Dark mode
+
+var icon = document.querySelector('.fa-adjust');
+var toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+var currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+  document.documentElement.setAttribute('data-theme', currentTheme);
+
+  if (currentTheme === 'dark') {
+    toggleSwitch.checked = true;
+  }
+}
+
+function switchTheme(e) {
+  if (e.target.checked) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+    icon.style.transform = 'rotate(180deg)';
+    icon.style.color = '#202020';
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('theme', 'light');
+    icon.style.transform = 'rotate(-180deg)';
+    icon.style.color = '#fff';
+  }
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
 },{"./Fetch_Job":"Fetch_Job.js"}],"node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -294,7 +322,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50114" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52695" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
