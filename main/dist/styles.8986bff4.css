@@ -3,6 +3,19 @@
     --montserrat:'Montserrat', sans-serif;
 
     --bg-color:#F9F9F9;
+    --placeholder-color:#686868;
+    --primary-color:#fff;
+    --secondary-color:#181818;
+    --border-color:#707070;
+    --card-footer-color:#0837A5;
+}
+
+[data-theme="dark"] {
+    --primary-color: #181818;
+    --secondary-color: #fff;
+    --bg-color: #202020;
+    --placeholder-color:#e1e1ff;
+    --card-footer-color:#46a1a1;
 }
 
 /* reset */
@@ -40,6 +53,61 @@ a{
     background-repeat: no-repeat;
     background-size: cover;
     color: #fff;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+/* dark mode button */
+/*Simple css to style it like a toggle switch*/
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    margin: 0.8% auto;
+}
+.theme-switch-wrapper i{
+    font-size: 27px;
+    transition: 0.5s ease-in;
+}
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 70px;
+}
+.theme-switch input {
+    display: none;
+}
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: 0.4s;
+}
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: 0.4s;
+    width: 26px;
+}
+input:checked + .slider {
+    background-color: #66bb6a;
+}
+input:checked + .slider:before {
+    transform: translateX(35px);
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
 }
 
 #search-form{
@@ -55,15 +123,16 @@ a{
 #search, #location{
     width: 500px;
     padding:3%;
-    border: 1px solid #707070;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
+    background-color:var(--primary-color);
 }
 
 #search::placeholder, #location::placeholder,#search, #location{
     font-family: var(--roboto);
     font-size: 20px;
     font-weight: lighter;
-    color: #686868;
+    color: var(--placeholder-color);
     text-align: center;
 }
 
@@ -97,9 +166,9 @@ a{
 .card-data{
     text-align: left;
     padding: 4% 0 4% 8%;
-    border: 1px solid #707070;
+    border: 1px solid var(--border-color);
     border-radius: 15px;
-    background: #fff;
+    background: var(--primary-color);
     box-shadow: 5px 5px 6px rgba(0,0,0,0.16);
 }
 
@@ -115,7 +184,7 @@ a{
 
 .job-posting-time{
     font-size: 12px;
-    color: #686868;
+    color: var(--placeholder-color);
     padding-bottom: 4%;
 }
 
@@ -124,14 +193,14 @@ a{
 }
 
 .card-data p{
-    color: #202020;
+    color: var(--secondary-color);
     font-size: 16px;
     padding-bottom: 3%;
 }
 
 .card-data h3{
     font-size: 18px;
-    color: #202020;
+    color:var(--secondary-color);
 
     max-width: 80%;
     padding-bottom: 4%;
@@ -141,17 +210,19 @@ a{
     font-size: 16px;
     padding-bottom: 3%;
     max-width: 80%;
+    color: var(--secondary-color);
 }
 
 .card-footer p{
     font-size: 16px;
-    color: #0837A5;
+    color: var(--card-footer-color);
     max-width: 80%;
 }
 
 .card-footer a{
     font-family: var(--roboto);
     font-size: 16px;
+    color: var(--card-footer-color);
 }
 
 .card-footer a:hover{
@@ -168,12 +239,12 @@ footer{
 footer p{
     font-family: var(--montserrat);
     font-size: 18px;
-    color: #202020;
+    color: var(--secondary-color);
 }
 
 footer a{
     text-decoration: underline;
-    color: #000;
+    color:var(--secondary-color);
 }
 
 
