@@ -1,6 +1,6 @@
 export const DisplayJobs = (job, currency) =>
     `
-        <div class="card-data">
+        <div class="card-data" data-aos="fade-up">
             <p class="job-posting-time">
                 <span>Posted on</span> ${job.created.slice(0, 10)}
             </p>
