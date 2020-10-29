@@ -166,7 +166,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.DisplayJobs = void 0;
 
 var DisplayJobs = function DisplayJobs(job, currency) {
-  return "\n        <div class=\"card-data\">\n            <p class=\"job-posting-time\">\n                5h ago\n            </p>\n            <h3>".concat(job.title, "</h3>\n            <h4>").concat(job.company.display_name, "</h4>\n            <p>Up to ").concat(currency).concat(job.salary_max, "</p> \n            <div class=\"card-footer\">\n                <p>").concat(job.location.display_name, "</p>\n                <a href=\"").concat(job.redirect_url, "\" target=\"_blank\">Know More</a>\n            </div>\n        </div>\n        ");
+  return "\n        <div class=\"card-data\">\n            <p class=\"job-posting-time\">\n                <span>Posted on</span> ".concat(job.created.slice(0, 10), "\n            </p>\n            <h3>").concat(job.title, "</h3>\n            <h4>").concat(job.company.display_name, "</h4>\n            <p>Up to ").concat(currency).concat(job.salary_max, "</p> \n            <div class=\"card-footer\">\n                <p>").concat(job.location.display_name, "</p>\n                <a href=\"").concat(job.redirect_url, "\" target=\"_blank\">Know More</a>\n            </div>\n        </div>\n        ");
 };
 
 exports.DisplayJobs = DisplayJobs;
@@ -294,7 +294,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52224" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50114" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
