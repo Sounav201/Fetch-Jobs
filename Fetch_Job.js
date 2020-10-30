@@ -42,7 +42,7 @@ export class FetchJobs {
             console.log('Query accepted');
             const { search, location } = getFormData(this.searchForm);
             console.log(search);
-            const endpoint2 = `https://fetch-job-api.herokuapp.com/?search=${search}&location=${location}&country=${this.countryCode}`;
+            const endpoint2 = `localhost:3000/?search=${search}&location=${location}&country=${this.countryCode}`;
             console.log(endpoint2)
             fetch(endpoint2)   //hard-coded local address
                 .then(response => response.json())
