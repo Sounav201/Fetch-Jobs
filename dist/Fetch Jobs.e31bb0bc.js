@@ -117,79 +117,184 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
+})({"utility.js":[function(require,module,exports) {
+"use strict";
 
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getFormData = exports.getCurrencySymbol = void 0;
 
-  return bundleURL;
-}
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"node_modules/parcel/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-
-  newLink.onload = function () {
-    link.remove();
+var getCurrencySymbol = function getCurrencySymbol(countryCode) {
+  var currencydb = {
+    in: '₹',
+    us: '$',
+    au: '$',
+    ca: '$',
+    gb: '£',
+    fr: '€',
+    de: '€'
   };
+  return currencydb[countryCode];
+};
 
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
+exports.getCurrencySymbol = getCurrencySymbol;
 
-var cssTimeout = null;
+var getFormData = function getFormData(form) {
+  return Array.from(form.elements).reduce(function (acc, _ref) {
+    var id = _ref.id,
+        value = _ref.value;
+    return _objectSpread(_defineProperty({}, id, value), acc);
+  }, {});
+}; //from Mdn docs
 
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
+
+exports.getFormData = getFormData;
+console.log("In getform");
+},{}],"formatJob.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DisplayJobs = void 0;
+
+var DisplayJobs = function DisplayJobs(job, currency) {
+  return "\n        <div class=\"card-data\" data-aos=\"fade-up\">\n            <p class=\"job-posting-time\">\n                <span>Posted on</span> ".concat(job.created.slice(0, 10), "\n            </p>\n            <h3>").concat(job.title, "</h3>\n            <h4>").concat(job.company.display_name, "</h4>\n            <p>Up to ").concat(currency).concat(job.salary_max, "</p> \n            <div class=\"card-footer\">\n                <p>").concat(job.location.display_name, "</p>\n                <a href=\"").concat(job.redirect_url, "\" target=\"_blank\">Know More</a>\n            </div>\n        </div>\n        ");
+};
+
+exports.DisplayJobs = DisplayJobs;
+},{}],"Fetch_Job.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FetchJobs = void 0;
+
+var _utility = require("./utility");
+
+var _formatJob = require("./formatJob");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var FetchJobs = /*#__PURE__*/function () {
+  function FetchJobs(searchFormSelector, resultsSelector) {
+    _classCallCheck(this, FetchJobs);
+
+    this.searchForm = document.querySelector(searchFormSelector);
+    this.resultsContainer = document.querySelector(resultsSelector);
   }
 
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
+  _createClass(FetchJobs, [{
+    key: "setCountryCode",
+    value: function setCountryCode() {
+      var _this = this;
 
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
-      }
+      //In case the IP Address API fails, default would be set to India.
+      this.countryCode = 'in';
+      this.setCurrencyCode();
+      var endpoint = 'http://ip-api.com/json';
+      fetch(endpoint) //.then(data => console.log(data))
+      .then(function (data) {
+        return data.json();
+      }) //.then(console.log('Is it still not working?'))
+      .then(function (data) {
+        _this.countryCode = data.countryCode.toLowerCase();
+
+        _this.setCurrencyCode();
+      });
     }
+  }, {
+    key: "setCurrencyCode",
+    value: function setCurrencyCode() {
+      //console.log('The');
+      this.currencySymbol = (0, _utility.getCurrencySymbol)(this.countryCode);
+    }
+  }, {
+    key: "GetForm",
+    value: function GetForm() {
+      var _this2 = this;
 
-    cssTimeout = null;
-  }, 50);
+      this.searchForm.addEventListener('submit', function (e) {
+        e.preventDefault(); // prevents from submitting the form
+
+        _this2.resultsContainer.innerHTML = '';
+        console.log('Query accepted');
+
+        var _getFormData = (0, _utility.getFormData)(_this2.searchForm),
+            search = _getFormData.search,
+            location = _getFormData.location;
+
+        console.log(search);
+        var endpoint2 = "http://localhost:3000/?search=".concat(search, "&location=").concat(location, "&country=").concat(_this2.countryCode);
+        console.log(endpoint2);
+        fetch(endpoint2) //hard-coded local address
+        .then(function (response) {
+          return response.json();
+        }).then(function (_ref) {
+          var results = _ref.results;
+          return results.map(function (job) {
+            return (0, _formatJob.DisplayJobs)(job, _this2.currencySymbol);
+          }).join('');
+        }).then(function (jobs) {
+          return _this2.resultsContainer.innerHTML = jobs;
+        });
+      });
+    }
+  }]);
+
+  return FetchJobs;
+}();
+
+exports.FetchJobs = FetchJobs;
+},{"./utility":"utility.js","./formatJob":"formatJob.js"}],"index.js":[function(require,module,exports) {
+"use strict";
+
+var _Fetch_Job = require("./Fetch_Job");
+
+var jobSearch = new _Fetch_Job.FetchJobs('#search-form', '.cards');
+jobSearch.setCountryCode();
+jobSearch.GetForm(); //Dark mode
+
+var icon = document.querySelector('.fa-adjust');
+var toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+var currentTheme = localStorage.getItem('theme');
+
+if (currentTheme) {
+  document.documentElement.setAttribute('data-theme', currentTheme);
+
+  if (currentTheme === 'dark') {
+    toggleSwitch.checked = true;
+  }
 }
 
-module.exports = reloadCSS;
-},{"./bundle-url":"node_modules/parcel/src/builtins/bundle-url.js"}],"styles.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
+function switchTheme(e) {
+  if (e.target.checked) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+    icon.style.transform = 'rotate(180deg)';
+    icon.style.color = '#202020';
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('theme', 'light');
+    icon.style.transform = 'rotate(-180deg)';
+    icon.style.color = '#fff';
+  }
+}
 
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"./img\\header_bg.png":[["header_bg.4ac1a92f.png","img/header_bg.png"],"img/header_bg.png"],"_css_loader":"node_modules/parcel/src/builtins/css-loader.js"}],"node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+toggleSwitch.addEventListener('change', switchTheme, false);
+},{"./Fetch_Job":"Fetch_Job.js"}],"node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -393,5 +498,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel/src/builtins/hmr-runtime.js"], null)
-//# sourceMappingURL=/styles.8986bff4.js.map
+},{}]},{},["node_modules/parcel/src/builtins/hmr-runtime.js","index.js"], null)
+//# sourceMappingURL=/Fetch%20Jobs.e31bb0bc.js.map

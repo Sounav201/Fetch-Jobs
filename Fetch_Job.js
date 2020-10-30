@@ -15,7 +15,7 @@ export class FetchJobs {
         //In case the IP Address API fails, default would be set to India.
         this.countryCode = 'in';
         this.setCurrencyCode();
-        const endpoint = 'https://ip-api.com/json';
+        const endpoint = 'http://ip-api.com/json';
 
 
         fetch(endpoint)
@@ -42,7 +42,7 @@ export class FetchJobs {
             console.log('Query accepted');
             const { search, location } = getFormData(this.searchForm);
             console.log(search);
-            const endpoint2 = `localhost:3000/?search=${search}&location=${location}&country=${this.countryCode}`;
+            const endpoint2 = `http://localhost:3000/?search=${search}&location=${location}&country=${this.countryCode}`;
             console.log(endpoint2)
             fetch(endpoint2)   //hard-coded local address
                 .then(response => response.json())
