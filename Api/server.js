@@ -4,6 +4,7 @@ const axios=require('axios');
 const chalk =require('chalk');
 const config= require('./config');
 const express=require("express");
+let PORT=process.env.PORT||3000;
 //const app=express();
 //app.get("/",function(req,res){
   //  res.send("Server is up and running");
@@ -52,8 +53,8 @@ const server= createServer((req,res) => {
     }
 });
 
-server.listen(3000, () =>{
-    console.log(chalk.green('Server listening on port 3000'));
+server.listen(PORT, () =>{
+    console.log(chalk.green(`Server listening on port:${PORT}`));
 })
 
 

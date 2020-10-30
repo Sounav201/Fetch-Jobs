@@ -1,59 +1,58 @@
-import { getCurrencySymbol,getFormData } from './utility';
+import { getCurrencySymbol, getFormData } from './utility';
 import { DisplayJobs } from './formatJob';
 
 export class FetchJobs {
 
-    constructor(searchFormSelector,resultsSelector)
-    {
-        this.searchForm=document.querySelector(searchFormSelector);
-        this.resultsContainer=document.querySelector(resultsSelector);
+    constructor(searchFormSelector, resultsSelector) {
+        this.searchForm = document.querySelector(searchFormSelector);
+        this.resultsContainer = document.querySelector(resultsSelector);
     }
 
- 
 
 
-    setCountryCode(){
+
+    setCountryCode() {
         //In case the IP Address API fails, default would be set to India.
-        this.countryCode='in';
+        this.countryCode = 'in';
         this.setCurrencyCode();
-        const endpoint='http://ip-api.com/json';
+        const endpoint = 'https://ip-api.com/json';
 
-        
+
         fetch(endpoint)
             //.then(data => console.log(data))
             .then(data => data.json())
             //.then(console.log('Is it still not working?'))
-            .then(data => { 
-                
-            this.countryCode = data.countryCode.toLowerCase();
-            this.setCurrencyCode();
+            .then(data => {
+
+                this.countryCode = data.countryCode.toLowerCase();
+                this.setCurrencyCode();
             });
     }
 
-    setCurrencyCode(){
+    setCurrencyCode() {
         //console.log('The');
-        this.currencySymbol=getCurrencySymbol(this.countryCode);
+        this.currencySymbol = getCurrencySymbol(this.countryCode);
     }
 
 
-    GetForm(){
+    GetForm() {
         this.searchForm.addEventListener('submit', (e) => {
             e.preventDefault();          // prevents from submitting the form
-            this.resultsContainer.innerHTML='';
+            this.resultsContainer.innerHTML = '';
             console.log('Query accepted');
-            const {search, location } = getFormData(this.searchForm);
+            const { search, location } = getFormData(this.searchForm);
             console.log(search);
-            const endpoint2=`http://localhost:3000/?search=${search}&location=${location}&country=${this.countryCode}`;
+            const endpoint2 = `http://localhost:3000/?search=${search}&location=${location}&country=${this.countryCode}`;
             console.log(endpoint2)
             fetch(endpoint2)   //hard-coded local address
-            .then(response => response.json())
-            .then(({ results }) => {
-            
-              return results
-                .map(job => DisplayJobs(job, this.currencySymbol))
-                .join('');
-            })
-            .then(jobs => this.resultsContainer.innerHTML = jobs)
+                .then(response => response.json())
+                .then(({ results }) => {
+
+                    return results
+                        .map(job => DisplayJobs(job, this.currencySymbol))
+                        .join('');
+                })
+                .then(jobs => this.resultsContainer.innerHTML = jobs)
         });
     }
 
