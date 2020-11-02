@@ -166,7 +166,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.DisplayJobs = void 0;
 
 var DisplayJobs = function DisplayJobs(job, currency) {
-  return "\n        <div class=\"card-data\" data-aos=\"fade-up\">\n            <p class=\"job-posting-time\">\n                <span>Posted on</span> ".concat(job.created.slice(0, 10), "\n            </p>\n            <h3>").concat(job.title, "</h3>\n            <h4>").concat(job.company.display_name, "</h4>\n            <p>Up to ").concat(currency).concat(job.salary_max, "</p> \n            <div class=\"card-footer\">\n                <p>").concat(job.location.display_name, "</p>\n                <a href=\"").concat(job.redirect_url, "\" target=\"_blank\">Know More</a>\n            </div>\n        </div>\n        ");
+  return "\n        <div class=\"card-data\" data-aos=\"fade-up\">\n            <p class=\"job-posting-time\">\n                <span>Posted on</span> ".concat(job.created.slice(0, 10), "\n            </p>\n            <h3>").concat(job.title, "</h3>\n            <h4>").concat(job.company.display_name, "</h4>\n            <div class=\"card-footer\">\n                <p>").concat(job.location.display_name, "</p>\n                <a href=\"").concat(job.redirect_url, "\" target=\"_blank\">Know More</a>\n            </div>\n        </div>\n        ");
 };
 
 exports.DisplayJobs = DisplayJobs;
@@ -237,7 +237,9 @@ var FetchJobs = /*#__PURE__*/function () {
             location = _getFormData.location;
 
         console.log(search);
-        var endpoint2 = "http://localhost:3000/?search=".concat(search, "&location=").concat(location, "&country=").concat(_this2.countryCode);
+        var to_be_appended = 'https://sounav-sample-be.herokuapp.com/'; //link of the back-end server.
+
+        var endpoint2 = "".concat(to_be_appended, "?search=").concat(search, "&location=").concat(location, "&country=").concat(_this2.countryCode);
         console.log(endpoint2);
         fetch(endpoint2) //hard-coded local address
         .then(function (response) {
@@ -246,7 +248,7 @@ var FetchJobs = /*#__PURE__*/function () {
           var results = _ref.results;
           return results.map(function (job) {
             return (0, _formatJob.DisplayJobs)(job, _this2.currencySymbol);
-          }).join('');
+          }).slice(1, 13).join('');
         }).then(function (jobs) {
           return _this2.resultsContainer.innerHTML = jobs;
         });
@@ -322,7 +324,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51539" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52093" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

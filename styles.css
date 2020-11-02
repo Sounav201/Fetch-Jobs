@@ -208,7 +208,7 @@ input:checked + .slider:before {
 
 .card-data h4{
     font-size: 16px;
-    padding-bottom: 3%;
+    padding-bottom: 3.5%;
     max-width: 80%;
     color: var(--secondary-color);
 }
