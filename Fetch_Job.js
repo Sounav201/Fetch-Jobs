@@ -6,6 +6,7 @@ export class FetchJobs {
     constructor(searchFormSelector, resultsSelector) {
         this.searchForm = document.querySelector(searchFormSelector);
         this.resultsContainer = document.querySelector(resultsSelector);
+
     }
 
 
@@ -42,7 +43,8 @@ export class FetchJobs {
             console.log('Query accepted');
             const { search, location } = getFormData(this.searchForm);
             console.log(search);
-            const endpoint2 = `http://localhost:3000/?search=${search}&location=${location}&country=${this.countryCode}`;
+            const to_be_appended = 'https://sounav-sample-be.herokuapp.com/'; //link of the back-end server.
+            const endpoint2 = `${to_be_appended}?search=${search}&location=${location}&country=${this.countryCode}`;
             console.log(endpoint2)
             fetch(endpoint2)   //hard-coded local address
                 .then(response => response.json())
@@ -50,6 +52,7 @@ export class FetchJobs {
 
                     return results
                         .map(job => DisplayJobs(job, this.currencySymbol))
+                        .slice(1, 13)
                         .join('');
                 })
                 .then(jobs => this.resultsContainer.innerHTML = jobs)
